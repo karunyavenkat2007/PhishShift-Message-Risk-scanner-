@@ -1,0 +1,95 @@
+Loaded 1275 raw messages, 17 campaigns
+Sanitisation: rows=1275; rows_with_defanged_urls=888; rows_with_live_urls=0
+Dedup (cos>=0.85): 1275 -> 847 (428 removed; 0 label conflicts)
+raw random split: 44.1% of test msgs have a train twin (cos>=0.85); max=1.000
+deduplicated random split: 3.1% of test msgs have a train twin (cos>=0.85); max=0.859
+deduplicated campaign split: 0.0% twins; max=0.364
+Train=641  Holdout=206  holdout campaigns=['PH_VENDOR', 'PH_SURVEY', 'LG_VENDOR', 'LG_COURIER']
+
+           split    model  accuracy  precision  recall    f1   fpr  roc_auc
+    random_70_30    rules     0.945       1.00   0.859 0.924 0.000    0.994
+campaign_holdout    rules     0.869       1.00   0.730 0.844 0.000    0.967
+    random_70_30 tfidf_lr     1.000       1.00   1.000 1.000 0.000    1.000
+campaign_holdout tfidf_lr     0.893       1.00   0.780 0.876 0.000    0.983
+    random_70_30  rf_cues     0.957       0.90   1.000 0.947 0.071    0.999
+campaign_holdout  rf_cues     0.641       0.62   0.670 0.644 0.387    0.794
+
+Leave-one-campaign-out (recall for phishing campaigns, FPR for legitimate):
+model                           rf_cues  rules  tfidf_lr
+campaign   metric                                       
+LG_COURIER false_positive_rate    0.000  0.000     0.000
+LG_EXPENSE false_positive_rate    0.000  0.000     0.000
+LG_HR      false_positive_rate    0.370  0.000     0.389
+LG_ITMAINT false_positive_rate    0.000  0.000     0.098
+LG_MFA     false_positive_rate    0.286  0.000     0.286
+LG_PAYROLL false_positive_rate    0.000  0.000     0.000
+LG_PWRESET false_positive_rate    0.190  0.034     0.121
+LG_SMS     false_positive_rate    0.000  0.000     0.000
+LG_TICKET  false_positive_rate    0.000  0.000     0.000
+LG_VENDOR  false_positive_rate    0.804  0.000     0.745
+PH_BOSS    recall                 0.000  1.000     0.000
+PH_INVOICE recall                 1.000  1.000     1.000
+PH_PARCEL  recall                 0.886  0.857     1.000
+PH_PAYROLL recall                 0.849  0.811     0.925
+PH_QUOTA   recall                 1.000  1.000     0.976
+PH_SURVEY  recall                 0.562  0.771     1.000
+PH_VENDOR  recall                 0.500  0.692     0.173
+
+False-positive rate on legitimate urgent messages (AT-01):
+   model                 scope   n  false_positive_rate
+ rf_cues LOCO all legit-urgent 231                0.082
+   rules LOCO all legit-urgent 231                0.009
+tfidf_lr LOCO all legit-urgent 231                0.082
+   rules  holdout legit-urgent   2                0.000
+tfidf_lr  holdout legit-urgent   2                0.000
+ rf_cues  holdout legit-urgent   2                0.500
+
+Best ML model by campaign-holdout F1: tfidf_lr
+
+Abstain sweep (tfidf_lr, campaign holdout):
+ tau  coverage  selective_accuracy  phish_caught  phish_abstained  phish_missed  legit_false_positive  legit_abstained
+ 0.5     1.000               0.893          0.78             0.00          0.22                   0.0            0.000
+ 0.6     0.738               0.954          0.51             0.42          0.07                   0.0            0.113
+ 0.7     0.379               1.000          0.24             0.76          0.00                   0.0            0.491
+ 0.8     0.136               1.000          0.02             0.98          0.00                   0.0            0.755
+ 0.9     0.034               1.000          0.00             1.00          0.00                   0.0            0.934
+
+Robustness drift on campaign holdout:
+   model      perturbation  mean_abs_shift  phish_mean_shift  flip_rate  recall_after  fpr_after
+   rules      synonym_swap           0.021            -0.042      0.034          0.66      0.000
+   rules punctuation_noise           0.103            -0.212      0.170          0.38      0.000
+   rules strip_punctuation           0.103            -0.212      0.170          0.38      0.000
+   rules          all_caps           0.000             0.000      0.000          0.73      0.000
+   rules             typos           0.010            -0.016      0.019          0.69      0.000
+   rules      undefang_url           0.000             0.000      0.000          0.73      0.000
+   rules       spaced_dots           0.103            -0.212      0.170          0.38      0.000
+tfidf_lr      synonym_swap           0.003            -0.005      0.005          0.77      0.000
+tfidf_lr punctuation_noise           0.000             0.000      0.000          0.78      0.000
+tfidf_lr strip_punctuation           0.003             0.004      0.019          0.82      0.000
+tfidf_lr          all_caps           0.000             0.000      0.000          0.78      0.000
+tfidf_lr             typos           0.014             0.004      0.034          0.82      0.009
+tfidf_lr      undefang_url           0.013            -0.023      0.015          0.75      0.000
+tfidf_lr       spaced_dots           0.006            -0.006      0.000          0.78      0.000
+ rf_cues      synonym_swap           0.014            -0.029      0.010          0.65      0.387
+ rf_cues punctuation_noise           0.080            -0.151      0.053          0.56      0.387
+ rf_cues strip_punctuation           0.076            -0.146      0.049          0.57      0.387
+ rf_cues          all_caps           0.039             0.052      0.029          0.73      0.387
+ rf_cues             typos           0.013            -0.006      0.019          0.66      0.358
+ rf_cues      undefang_url           0.004             0.001      0.000          0.67      0.387
+ rf_cues       spaced_dots           0.075            -0.148      0.049          0.57      0.387
+
+Errors by best model on holdout: 22 missed phish, 0 flagged legit -> results/error_examples.csv
+
+CP-5 (original vs perturbed, tfidf_lr):
+variant     original  punctuation_noise  synonym_swap  typos  undefang_url
+message_id                                                                
+CP5-1          0.107              0.107         0.107  0.107         0.095
+CP5-2          0.205              0.205         0.230  0.224         0.205
+CP5-3          0.045              0.045         0.050  0.046         0.043
+CP5-4          0.347              0.347         0.347  0.347         0.347
+CP5-5          0.785              0.785         0.734  0.759         0.758
+CP5-6          0.780              0.780         0.780  0.787         0.745
+CP5-7          0.887              0.887         0.887  0.887         0.887
+CP5-8          0.640              0.640         0.640  0.640         0.587
+
+Saved model phishshift-v1-tfidf_lr-20261018

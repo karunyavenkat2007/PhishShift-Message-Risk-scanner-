@@ -1,0 +1,3 @@
+raw random split: 44.1% of test msgs have a train twin (cos>=0.85); max=1.000
+deduplicated random split: 3.1% of test msgs have a train twin (cos>=0.85); max=0.859
+deduplicated campaign split: 0.0% twins; max=0.364

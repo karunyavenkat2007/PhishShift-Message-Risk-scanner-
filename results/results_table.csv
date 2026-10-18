@@ -1,0 +1,7 @@
+split,model,n,accuracy,precision,recall,f1,fpr,tn,fp,fn,tp,roc_auc
+random_70_30,rules,255,0.945,1.0,0.859,0.924,0.0,156,0,14,85,0.994
+campaign_holdout,rules,206,0.869,1.0,0.73,0.844,0.0,106,0,27,73,0.967
+random_70_30,tfidf_lr,255,1.0,1.0,1.0,1.0,0.0,156,0,0,99,1.0
+campaign_holdout,tfidf_lr,206,0.893,1.0,0.78,0.876,0.0,106,0,22,78,0.983
+random_70_30,rf_cues,255,0.957,0.9,1.0,0.947,0.071,145,11,0,99,0.999
+campaign_holdout,rf_cues,206,0.641,0.62,0.67,0.644,0.387,65,41,33,67,0.794
