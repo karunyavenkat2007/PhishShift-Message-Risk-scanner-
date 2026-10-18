@@ -1,0 +1,7 @@
+model,scope,n,false_positive_rate
+rf_cues,LOCO all legit-urgent,231,0.082
+rules,LOCO all legit-urgent,231,0.009
+tfidf_lr,LOCO all legit-urgent,231,0.082
+rules,holdout legit-urgent,2,0.0
+tfidf_lr,holdout legit-urgent,2,0.0
+rf_cues,holdout legit-urgent,2,0.5

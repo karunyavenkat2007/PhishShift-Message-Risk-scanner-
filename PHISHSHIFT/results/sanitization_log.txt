@@ -1,0 +1,5 @@
+rows=1275
+rows_with_defanged_urls=888
+rows_with_live_urls=0
+rows_with_missing_subject=150 (all SMS: True)
+attachments=excluded (no attachment fields in schema)

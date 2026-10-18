@@ -1,0 +1,3 @@
+message_id,campaign,actual,p_phish,subject,body,cues,top_terms
+M00447,PH_VENDOR,1,0.444,Updated remittance details,"Good morning Isha, our finance team has moved to a new bank, so the account details for next week's transfer have changed. The new details are in the document at hxxps://is[.]gd/x9ppbu. Thanks for the quick turnaround.",payment_request; shortened_link,"gd, to, quick, are, 1 tld"
+M00481,PH_SURVEY,1,0.49,Two-minute pulse survey,Thanks for being part of the Operations team! We are rewarding colleagues who give feedback this month. Link: hxxps://bit[.]ly/nz6vfn People Experience Team,shortened_link,"ly, are, shortener 1, 1 tld, 1"

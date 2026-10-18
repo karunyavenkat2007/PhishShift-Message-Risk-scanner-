@@ -1,0 +1,1 @@
+{"time": "2026-10-18T16:14:13", "version": "phishshift-v1-tfidf_lr-20261018", "seed": 42, "holdout": ["PH_VENDOR", "PH_SURVEY", "LG_VENDOR", "LG_COURIER"], "dedup_threshold": 0.85, "tau": 0.6, "n_raw": 1275, "n_clean": 847, "holdout_f1": {"rules": 0.844, "tfidf_lr": 0.876, "rf_cues": 0.644}}
